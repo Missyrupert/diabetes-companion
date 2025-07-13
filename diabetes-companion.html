@@ -1,0 +1,670 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Type 2 Companion</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            margin: 0;
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            color: #1f2937;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #1e40af 0%, #1e3a8a 100%);
+            color: white;
+            padding: 2rem;
+            text-align: center;
+        }
+        
+        .logo {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .emergency-btn {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #dc2626;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 25px;
+            font-weight: bold;
+            cursor: pointer;
+            z-index: 1000;
+            box-shadow: 0 4px 15px rgba(220, 38, 38, 0.4);
+        }
+        
+        .emergency-btn:hover {
+            background: #b91c1c;
+            transform: scale(1.05);
+        }
+        
+        .nav {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+        
+        .nav-btn {
+            padding: 1rem;
+            background: white;
+            border: 2px solid #e5e7eb;
+            border-radius: 12px;
+            cursor: pointer;
+            text-align: center;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        
+        .nav-btn:hover, .nav-btn.active {
+            background: #1e40af;
+            color: white;
+            border-color: #1e40af;
+            transform: translateY(-2px);
+        }
+        
+        .section {
+            display: none;
+            background: white;
+            padding: 2rem;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            margin: 2rem 0;
+        }
+        
+        .section.active {
+            display: block;
+        }
+        
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        
+        .card {
+            background: #f9fafb;
+            padding: 1.5rem;
+            border-radius: 12px;
+            border: 1px solid #e5e7eb;
+        }
+        
+        .card h3 {
+            color: #1e40af;
+            margin-bottom: 1rem;
+        }
+        
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+        
+        .stat {
+            background: linear-gradient(135deg, #1e40af 0%, #1e3a8a 100%);
+            color: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            text-align: center;
+        }
+        
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+        
+        .glucose-tracker {
+            background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%);
+            padding: 2rem;
+            border-radius: 16px;
+            margin: 2rem 0;
+        }
+        
+        .input-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+        
+        .input-group {
+            background: white;
+            padding: 1rem;
+            border-radius: 8px;
+        }
+        
+        .input-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        
+        .input-group input {
+            width: 100%;
+            padding: 0.5rem;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+        }
+        
+        .btn {
+            background: #1e40af;
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            margin-top: 1rem;
+        }
+        
+        .btn:hover {
+            background: #1e3a8a;
+        }
+        
+        .btn-success {
+            background: #059669;
+        }
+        
+        .btn-success:hover {
+            background: #047857;
+        }
+        
+        .story {
+            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+            padding: 2rem;
+            border-radius: 12px;
+            margin: 1.5rem 0;
+            border-left: 4px solid #f59e0b;
+        }
+        
+        .quote {
+            font-style: italic;
+            font-size: 1.1rem;
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+        
+        .author {
+            font-weight: 600;
+            color: #92400e;
+        }
+        
+        .share-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #059669;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 25px;
+            font-weight: bold;
+            cursor: pointer;
+            z-index: 1000;
+            box-shadow: 0 4px 15px rgba(5, 150, 105, 0.4);
+        }
+        
+        .share-btn:hover {
+            background: #047857;
+            transform: scale(1.05);
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            z-index: 10000;
+        }
+        
+        .modal.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .modal-content {
+            background: white;
+            padding: 2rem;
+            border-radius: 16px;
+            max-width: 500px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+        
+        .emergency-header {
+            background: #dc2626;
+            color: white;
+            padding: 1rem;
+            border-radius: 8px;
+            text-align: center;
+            margin-bottom: 1rem;
+        }
+        
+        @media (max-width: 768px) {
+            .nav {
+                grid-template-columns: 1fr;
+            }
+            .card-grid {
+                grid-template-columns: 1fr;
+            }
+            .stats {
+                grid-template-columns: 1fr;
+            }
+            .input-row {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Emergency Button -->
+    <button class="emergency-btn" onclick="openEmergency()">🚨 EMERGENCY</button>
+    
+    <!-- Share Button -->
+    <button class="share-btn" onclick="shareApp()">📤 Share App</button>
+
+    <!-- Emergency Modal -->
+    <div class="modal" id="emergency-modal">
+        <div class="modal-content">
+            <div class="emergency-header">
+                <h2>🚨 DIABETES EMERGENCY</h2>
+                <button class="btn" onclick="closeEmergency()">Close</button>
+            </div>
+            
+            <h3>⚠️ CALL 911 IF:</h3>
+            <ul>
+                <li>Blood sugar over 400 mg/dL</li>
+                <li>Persistent vomiting</li>
+                <li>Difficulty breathing</li>
+                <li>Severe confusion</li>
+                <li>Loss of consciousness</li>
+            </ul>
+            
+            <h3>🍯 LOW BLOOD SUGAR (Under 70):</h3>
+            <div style="background: #fef3c7; padding: 1rem; border-radius: 8px; margin: 1rem 0;">
+                <h4>THE RULE OF 15:</h4>
+                <ol>
+                    <li><strong>Take 15g fast carbs:</strong> 4 glucose tablets, 1/2 cup juice, 1 tbsp honey</li>
+                    <li><strong>Wait 15 minutes</strong></li>
+                    <li><strong>Recheck blood sugar</strong></li>
+                    <li><strong>If still under 70, repeat</strong></li>
+                </ol>
+            </div>
+        </div>
+    </div>
+
+    <!-- Header -->
+    <div class="header">
+        <div class="logo">🌱 Type 2 Companion</div>
+        <p>Your complete diabetes journey partner</p>
+    </div>
+
+    <div class="container">
+        <!-- Medical Disclaimer -->
+        <div style="background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%); border-left: 4px solid #1e40af; padding: 1.5rem; margin: 2rem 0; border-radius: 0 15px 15px 0;">
+            <h3 style="color: #1e3a8a; margin-bottom: 0.75rem; font-weight: 700;">🩺 Medical Disclaimer</h3>
+            <p><strong>This companion provides information and support, not medical advice.</strong> Always consult your healthcare team for medical decisions and treatment changes. In emergencies, call 911 immediately.</p>
+        </div>
+
+        <!-- Navigation -->
+        <div class="nav">
+            <button class="nav-btn active" onclick="showSection('dashboard')">📊 Dashboard</button>
+            <button class="nav-btn" onclick="showSection('glucose')">🩸 Glucose</button>
+            <button class="nav-btn" onclick="showSection('education')">📚 Education</button>
+            <button class="nav-btn" onclick="showSection('community')">👥 Community</button>
+            <button class="nav-btn" onclick="showSection('resources')">🔗 Resources</button>
+        </div>
+
+        <!-- Dashboard Section -->
+        <div class="section active" id="dashboard">
+            <h2>📊 Your Dashboard</h2>
+            
+            <div class="stats">
+                <div class="stat">
+                    <div class="stat-number" id="readings-count">0</div>
+                    <div>Glucose readings</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-number">--</div>
+                    <div>Average this week</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-number">1</div>
+                    <div>Days tracking</div>
+                </div>
+            </div>
+
+            <div class="card-grid">
+                <div class="card">
+                    <h3>🎯 Today's Goals</h3>
+                    <p>✓ Check blood sugar twice</p>
+                    <p>✓ Take medications on time</p>
+                    <p>✓ 30 minutes of activity</p>
+                    <button class="btn" onclick="showSection('glucose')">Log Reading</button>
+                </div>
+                
+                <div class="card">
+                    <h3>📈 Progress</h3>
+                    <p>You're building healthy habits! Each day of tracking helps you understand your patterns better.</p>
+                    <button class="btn btn-success">Keep Going!</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Glucose Section -->
+        <div class="section" id="glucose">
+            <h2>🩸 Glucose Tracking</h2>
+            
+            <div class="glucose-tracker">
+                <h3>📊 Log Your Blood Sugar</h3>
+                <div class="input-row">
+                    <div class="input-group">
+                        <label>Fasting Glucose (mg/dL)</label>
+                        <input type="number" id="fasting" placeholder="80-130" min="40" max="600">
+                        <small>Target: 80-130 mg/dL</small>
+                    </div>
+                    
+                    <div class="input-group">
+                        <label>Post-Meal (2hr)</label>
+                        <input type="number" id="postmeal" placeholder="<180" min="40" max="600">
+                        <small>Target: <180 mg/dL</small>
+                    </div>
+                    
+                    <div class="input-group">
+                        <label>Notes (optional)</label>
+                        <input type="text" id="notes" placeholder="Before breakfast...">
+                        <button class="btn btn-success" onclick="logReading()" style="width: 100%;">Log Reading</button>
+                    </div>
+                </div>
+                
+                <div id="reading-feedback"></div>
+            </div>
+
+            <div class="card-grid">
+                <div class="card">
+                    <h3>🎯 Target Ranges</h3>
+                    <ul>
+                        <li><strong>Fasting:</strong> 80-130 mg/dL</li>
+                        <li><strong>Post-meal:</strong> <180 mg/dL</li>
+                        <li><strong>HbA1c:</strong> <7.0%</li>
+                    </ul>
+                </div>
+                
+                <div class="card">
+                    <h3>🚨 When to Act</h3>
+                    <ul>
+                        <li><strong>Under 70:</strong> Treat immediately</li>
+                        <li><strong>Over 250:</strong> Contact doctor</li>
+                        <li><strong>Over 400:</strong> Emergency care</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div id="readings-log">
+                <h3>📋 Recent Readings</h3>
+                <div id="readings-list">
+                    <p>No readings yet. Start tracking!</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Education Section -->
+        <div class="section" id="education">
+            <h2>📚 Education & Hope</h2>
+
+            <div class="stats">
+                <div class="stat">
+                    <div class="stat-number">58%</div>
+                    <div>Risk reduction with lifestyle changes</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-number">46%</div>
+                    <div>Achieved remission in DiRECT study</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-number">21%</div>
+                    <div>Cardiovascular event reduction</div>
+                </div>
+            </div>
+
+            <div class="card-grid">
+                <div class="card">
+                    <h3>🌟 Diabetes Remission</h3>
+                    <p><strong>Definition:</strong> HbA1c <6.5% for 3+ months without diabetes medications</p>
+                    <p><strong>DiRECT Study:</strong> 46% achieved remission through structured weight management</p>
+                    <p><strong>Key:</strong> Early intervention and sustained lifestyle changes</p>
+                </div>
+                
+                <div class="card">
+                    <h3>🔬 Understanding Type 2</h3>
+                    <p><strong>Insulin Resistance:</strong> Your cells become less responsive to insulin</p>
+                    <p><strong>Good News:</strong> This can improve significantly with lifestyle changes</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Community Section -->
+        <div class="section" id="community">
+            <h2>👥 Community Stories</h2>
+            
+            <div class="story">
+                <div class="quote">"At 58, getting diagnosed felt like a wake-up call I desperately needed. Two years later, I'm off medication, maintain my weight loss, and honestly feel 10 years younger."</div>
+                <div class="author">- Patricia, 60, Retired Teacher</div>
+            </div>
+
+            <div class="story">
+                <div class="quote">"I was diagnosed at 52. Six months in, I realize this diagnosis saved my life. I've lost 25 pounds, my energy is through the roof, and my last HbA1c was 6.2%."</div>
+                <div class="author">- David, 53, Marketing Director</div>
+            </div>
+
+            <div class="card-grid">
+                <div class="card">
+                    <h3>🎯 Setting Goals</h3>
+                    <p><em>"Start with one change at a time. Small wins build momentum."</em></p>
+                </div>
+                
+                <div class="card">
+                    <h3>🍽️ Food Relationships</h3>
+                    <p><em>"I think about foods as 'most of the time' or 'sometimes' foods. It eliminated guilt."</em></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Resources Section -->
+        <div class="section" id="resources">
+            <h2>🔗 Resources & Support</h2>
+            
+            <div class="card-grid">
+                <div class="card">
+                    <h3>🏛️ American Diabetes Association</h3>
+                    <p>Leading diabetes organization with evidence-based guidelines</p>
+                    <button class="btn" onclick="window.open('https://www.diabetes.org/', '_blank')">Visit Website</button>
+                </div>
+                
+                <div class="card">
+                    <h3>📱 MyFitnessPal</h3>
+                    <p>Food tracking with diabetes-friendly features</p>
+                    <button class="btn" onclick="window.open('https://www.myfitnesspal.com/', '_blank')">Get App</button>
+                </div>
+                
+                <div class="card">
+                    <h3>💬 Diabetes Daily Forum</h3>
+                    <p>Active, supportive community with Type 2 discussions</p>
+                    <button class="btn" onclick="window.open('https://www.diabetesdaily.com/forum/', '_blank')">Join Community</button>
+                </div>
+                
+                <div class="card">
+                    <h3>🌐 TuDiabetes Community</h3>
+                    <p>Global diabetes support network</p>
+                    <button class="btn" onclick="window.open('https://www.tudiabetes.org/', '_blank')">Join Community</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let readings = [];
+        
+        function showSection(sectionName) {
+            document.querySelectorAll('.section').forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            document.getElementById(sectionName).classList.add('active');
+            event.target.classList.add('active');
+        }
+        
+        function openEmergency() {
+            document.getElementById('emergency-modal').classList.add('active');
+        }
+        
+        function closeEmergency() {
+            document.getElementById('emergency-modal').classList.remove('active');
+        }
+        
+        function logReading() {
+            const fasting = document.getElementById('fasting').value;
+            const postmeal = document.getElementById('postmeal').value;
+            const notes = document.getElementById('notes').value;
+            
+            if (!fasting && !postmeal) {
+                alert('Please enter at least one glucose reading');
+                return;
+            }
+            
+            const reading = {
+                date: new Date().toLocaleDateString(),
+                time: new Date().toLocaleTimeString(),
+                fasting: fasting || null,
+                postmeal: postmeal || null,
+                notes: notes || ''
+            };
+            
+            readings.push(reading);
+            
+            document.getElementById('fasting').value = '';
+            document.getElementById('postmeal').value = '';
+            document.getElementById('notes').value = '';
+            
+            showFeedback(reading);
+            updateReadingsList();
+            updateDashboard();
+        }
+        
+        function showFeedback(reading) {
+            const feedback = document.getElementById('reading-feedback');
+            const value = reading.fasting || reading.postmeal;
+            const type = reading.fasting ? 'fasting' : 'post-meal';
+            
+            let message = '';
+            let color = '';
+            
+            if (value < 70) {
+                message = `⚠️ Low blood sugar! Your ${type} reading of ${value} mg/dL is below target. Use the Rule of 15 if you have symptoms.`;
+                color = '#dc2626';
+            } else if (value <= (reading.fasting ? 130 : 180)) {
+                message = `✅ Excellent! Your ${type} reading of ${value} mg/dL is in target range.`;
+                color = '#059669';
+            } else {
+                message = `⚠️ Your ${type} reading of ${value} mg/dL is above target. Consider reviewing meal choices and activity.`;
+                color = '#f59e0b';
+            }
+            
+            feedback.innerHTML = `<div style="background: ${color}; color: white; padding: 1rem; border-radius: 8px; margin: 1rem 0;">${message}</div>`;
+        }
+        
+        function updateReadingsList() {
+            const list = document.getElementById('readings-list');
+            if (readings.length === 0) {
+                list.innerHTML = '<p>No readings yet. Start tracking!</p>';
+                return;
+            }
+            
+            let html = '';
+            readings.slice(-5).reverse().forEach(reading => {
+                html += `
+                    <div style="background: white; padding: 1rem; border-radius: 8px; margin: 0.5rem 0; border-left: 4px solid #1e40af;">
+                        <strong>${reading.date} at ${reading.time}</strong><br>
+                        Fasting: ${reading.fasting || 'Not recorded'} mg/dL | 
+                        Post-meal: ${reading.postmeal || 'Not recorded'} mg/dL
+                        ${reading.notes ? `<br><em>${reading.notes}</em>` : ''}
+                    </div>
+                `;
+            });
+            
+            list.innerHTML = html;
+        }
+        
+        function updateDashboard() {
+            const element = document.getElementById('readings-count');
+            if (element) {
+                element.textContent = readings.length;
+            }
+        }
+        
+        function shareApp() {
+            const text = `🌱 Mate, I found this brilliant Type 2 Diabetes Companion!
+
+Perfect for people like us who were recently diagnosed:
+
+✅ Emergency protocols (Rule of 15 for low blood sugar)
+✅ Glucose tracking with instant feedback  
+✅ Real stories from people our age
+✅ Evidence about diabetes remission
+✅ Professional resources and support
+
+Thought you'd find it helpful!`;
+            
+            const url = window.location.href;
+            const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(text + '\n\n' + url)}`;
+            window.open(whatsappUrl, '_blank');
+        }
+        
+        // Close modal when clicking outside
+        document.addEventListener('click', function(e) {
+            const modal = document.getElementById('emergency-modal');
+            if (e.target === modal) {
+                closeEmergency();
+            }
+        });
+        
+        // Keyboard shortcuts
+        document.addEventListener('keydown', function(e) {
+            if ((e.ctrlKey || e.metaKey) && e.key === 'e') {
+                e.preventDefault();
+                openEmergency();
+            }
+            if (e.key === 'Escape') {
+                closeEmergency();
+            }
+        });
+        
+        console.log('🌱 Type 2 Companion loaded successfully!');
+    </script>
+</body>
+</html>
